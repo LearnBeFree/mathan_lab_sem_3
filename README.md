@@ -5,3 +5,6 @@
 Подробнее в [README](./submission/README.md)
 
 Наш отчёт (будет динамически дособираться по мере выполнения работы): [./submission/report.pdf](./submission/report.pdf)
+
+Структура репозитория:
+![Дерево репозитория](repo_structure.png)
