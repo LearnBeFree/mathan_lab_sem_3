@@ -1,0 +1,84 @@
+% !TeX program = xelatex
+% Сборка (из папки submission): xelatex report.tex — два раза (ссылки и номера).
+% Отчёт склеен из sections/*.tex: каждый правит только свои файлы.
+% Красный [TODO: ...] — незаполненное место; перед сдачей их быть не должно.
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{russian}
+% Шрифты — как в шаблоне преподавателя (report_template.tex).
+% Если Times New Roman / Courier New не установлены (типично для Linux),
+% берётся метрически совместимая замена Liberation Serif / Liberation Mono
+% (пакет fonts-liberation), чтобы сборка не падала.
+% Для точного совпадения с шаблоном: ttf-mscorefonts-installer (см. README.md).
+\IfFontExistsTF{Times New Roman}{%
+  \setmainfont{Times New Roman}%
+  \setmonofont{Courier New}%
+  \newfontfamily\cyrillicfonttt[Script=Default]{Courier New}%
+}{%
+  \setmainfont{Liberation Serif}%
+  \setmonofont{Liberation Mono}%
+  \newfontfamily\cyrillicfonttt[Script=Default]{Liberation Mono}%
+}
+\usepackage{amsmath,amssymb,graphicx,array}
+\usepackage[margin=2cm]{geometry}
+\usepackage{xcolor,listings}
+\usepackage[unicode,hidelinks]{hyperref}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlength{\emergencystretch}{3em}
+\renewcommand{\arraystretch}{1.25}
+\newcommand{\taskhead}[1]{\par\textbf{#1}\par}
+% Сохранять ASCII-дефис U+002D при копировании кода из PDF.
+\lstset{literate={-}{{\char45}}1}
+\lstdefinestyle{commands}{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{gray!10},
+  frame=single,framerule=0pt,framesep=6pt,
+  xleftmargin=6pt,xrightmargin=6pt,
+  breaklines=true,columns=fullflexible,keepspaces=true,
+  showstringspaces=false
+}
+% Красная пометка о незаполненном месте.
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+% Рисунок с защитой от отсутствующего файла: пока файла нет — рамка-заглушка,
+% сборка не ломается. Пример:
+%   \taskfigure[0.75]{figures/2-2-error.pdf}{Подпись}{fig:2-2-error}
+\newcommand{\taskfigure}[4][0.75]{%
+  \begin{figure}[htbp]\centering
+  \IfFileExists{#2}{\includegraphics[width=#1\linewidth]{#2}}{%
+    \fbox{\parbox[c][0.2\textheight][c]{0.85\linewidth}{\centering
+      \todo{рисунок ещё не добавлен}\\[6pt]\texttt{\detokenize{#2}}}}}%
+  \caption{#3}\label{#4}%
+  \end{figure}}
+
+\begin{document}
+\sloppy
+\input{sections/00-titlepage}
+\input{sections/01-order}
+
+\section{Численное вычисление двойных интегралов}
+\input{sections/10-double}
+
+\section{Тройные интегралы и замена координат}
+\input{sections/21-rotation}
+\input{sections/22-cylinder}
+\input{sections/23-sphere}
+
+\section{Исследование и оптимизация динамической системы}
+\input{sections/31-equilibrium}
+\input{sections/32-taylor}
+\input{sections/33-regulator}
+\input{sections/34-cost}
+\subsection{Численная проверка}
+\input{sections/351-derivatives}
+\input{sections/352-taylor-errors}
+\input{sections/353-simulator}
+\input{sections/36-realistic}
+
+\section*{Проверка реализации}
+\input{sections/90-checks}
+
+\section*{Заключение по лабораторной работе}
+\input{sections/99-conclusion}
+\end{document}

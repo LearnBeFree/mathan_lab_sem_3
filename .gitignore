@@ -1,0 +1,20 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# LaTeX: служебные файлы сборки (PDF отчёта и рисунки коммитим)
+*.aux
+*.log
+*.out
+*.toc
+*.lof
+*.lot
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.xdv
+
+# OS
+.DS_Store
+Thumbs.db
